@@ -2,7 +2,7 @@
   <div>
     <header>
       <div>
-        <div v-for="article in articles.slice().reverse()" :key="article.id">
+        <div v-for="article in articles" :key="article.id">
           <img v-bind:src="article.imageURL">
           <h3>{{ article.header }}</h3>
           <p>{{ article.content }}</p>
@@ -10,6 +10,9 @@
 
           <button v-if="isAdmin" type="button" class="btn btn-link" @click="deleteArticle(article.id)">Delete
             article</button>
+
+          <router-link to="/updateArticle" v-if="isAdmin" class="btn btn-link" @click="saveArticleId(article.id)">Update
+            article</router-link>
 
           <LoadComments :articleId="article.id" />
 
@@ -51,6 +54,9 @@ export default {
         // window.location.replace('/');
         document.location.reload()
       }
+    },
+    saveArticleId(articleId) {
+      localStorage.setItem('articleId', articleId);
     }
   },
   async created() {
@@ -69,6 +75,15 @@ export default {
 
     await axios.get('api/articles').then((response) => {
       this.articles = response.data;
+      this.articles.sort(function( articleOne, artcleTwo ) {
+        if(articleOne.date < artcleTwo.date){
+          return 1;
+        } else if (articleOne.date > artcleTwo.date){
+          return -1;
+        } else {
+          return 0;
+        }
+      });
     });
   }
 }

@@ -5,7 +5,7 @@
             <div v-if="showLess && this.comments.length > 3">
                 <div v-for="comment in comments.slice(comments.length - 3, comments.length).reverse()" :key="comment.id">
                     {{ comment.text }}
-                    <p>{{ comment.user.firstName }} {{ comment.user.lastName }}, {{ comment.date }}</p>
+                    <p>{{ comment.user.firstName }} {{ comment.user.lastName }} {{ comment.date }}</p>
                     <button v-if="isAdmin" type="button" class="btn btn-link" @click="deleteComment(comment.id)">Delete
                         comment</button>
                 </div>
@@ -13,7 +13,7 @@
             <div v-else>
                 <div v-for="comment in comments.slice().reverse()" :key="comment.id">
                     {{ comment.text }}
-                    <p>{{ comment.user.firstName }} {{ comment.user.lastName }}, {{ comment.date }}</p>
+                    <p>{{ comment.user.firstName }} {{ comment.user.lastName }} {{ comment.date }}</p>
                     <button v-if="isAdmin" type="button" class="btn btn-link" @click="deleteComment(comment.id)">Delete
                         comment</button>
                 </div>

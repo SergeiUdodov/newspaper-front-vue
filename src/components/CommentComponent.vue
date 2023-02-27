@@ -35,6 +35,10 @@ import ErrorComponent from './ErrorComponent.vue'
         methods:{
             async addComment(){
 
+            if(this.text.trim() === ''){
+                return;
+            }
+
             if(localStorage.getItem('token')){
               this.token = 'Bearer ' + localStorage.getItem('token');
             }
