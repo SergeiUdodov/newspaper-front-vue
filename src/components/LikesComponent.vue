@@ -74,6 +74,7 @@ export default {
     for (let i in this.article.likes) {
       if (this.article.likes[i].email === this.user.email) {
         this.class = "fas fa-heart";
+        break;
       }
     }
   },

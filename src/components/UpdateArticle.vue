@@ -1,34 +1,48 @@
 
 <template>
-    <form @submit.prevent="updateArticle">
+    <form v-if="isAdmin" @submit.prevent="updateArticle">
 
         <ErrorComponent v-if="error" :error="error" />
 
-        <h3>Update article</h3>
+        <h3>Редактировать статью</h3>
 
         <div class="form-floating mb-3">
             <textarea name="textarea" style="width:content; height:150px;" class="form-control" id="floatingInput"
                 v-model="header" />
+            <label for="floatingInput">Заголовок:</label>
         </div>
 
         <div class="form-floating mb-3">
             <textarea name="textarea" style="width:content; height:400px;" class="form-control" id="floatingInput"
                 v-model="content" />
+            <label for="floatingInput">Содержание:</label>
         </div>
 
         <div class="form-floating mb-3">
             <textarea name="textarea" style="width:content; height:200px;" class="form-control" id="floatingInput"
                 v-model="imageURL" />
+            <label for="floatingInput">Ссылка на картинку:</label>
         </div>
 
-        <button class="btn btn-primary btn-block">Update</button>
-        <router-link to="/" class="btn btn-primary btn-block">Back</router-link>
+        <h5>Выберите темы из существующих</h5>
+        <div v-for="theme in existingThemes" :key="theme.id">
+            <label><input type="checkbox" v-model="chosenThemes" :value="theme.name">#{{ theme.name }}</label>
+        </div>
+
+        <div class="form-floating mb-3">
+            <textarea name="textarea" style="width:content; height:120px;" class="form-control" id="floatingInput"
+                v-model="newThemes" />
+            <label for="floatingInput">Добавьте новые темы...</label>
+        </div>
+
+        <button class="btn btn-primary btn-block">Сохранить</button>
+        <router-link to="/" class="btn btn-primary btn-block">Назад</router-link>
     </form>
 </template>
 
 <script>
-import axios from 'axios'
-import ErrorComponent from './ErrorComponent.vue'
+import axios from 'axios';
+import ErrorComponent from './ErrorComponent.vue';
 
 export default {
     name: 'UpdateArticle',
@@ -43,7 +57,11 @@ export default {
             content: '',
             imageURL: '',
             error: '',
-            token: ''
+            token: '',
+            isAdmin: false,
+            existingThemes: [],
+            chosenThemes: [],
+            newThemes: ''
         }
     },
     methods: {
@@ -52,25 +70,19 @@ export default {
             try {
 
                 if (this.header.trim() === '' || this.content.trim() === '') {
-                    throw new Error('Header and content must not be empty');
+                    throw new Error('Заголовок и контент не должны быть пустыми');
                 }
 
                 if (this.header.trim().length > 255) {
-                    throw new Error('Header more than 255 symbols');
-                }
-
-                if (localStorage.getItem('token')) {
-                    this.token = 'Bearer ' + localStorage.getItem('token');
-                }
-                else {
-                    this.token = ''
+                    throw new Error('Заголовок длиннее 255 символов');
                 }
 
                 await axios.put('api/updateArticle/' + this.articleId,
                     {
                         header: this.header,
                         content: this.content,
-                        imageURL: this.imageURL
+                        imageURL: this.imageURL,
+                        themes: this.chosenThemes.toString() + ',' + this.newThemes
                     },
                     {
                         headers: {
@@ -91,6 +103,23 @@ export default {
     },
     async created() {
 
+        if (localStorage.getItem("token")) {
+            this.token = "Bearer " + localStorage.getItem("token");
+
+            await axios
+                .get("api/isUserAdmin", { headers: { Authorization: this.token } })
+                .then((response) => {
+                    this.isAdmin = response.data;
+                });
+        } else {
+            this.token = "";
+            this.isAdmin = false;
+        }
+
+        if (!this.isAdmin) {
+            return;
+        }
+
         if (localStorage.getItem('articleId')) {
             this.articleId = localStorage.getItem('articleId');
 
@@ -99,6 +128,12 @@ export default {
             this.articleId = ''
         }
 
+        await axios
+            .get("api/themes", { headers: { Authorization: this.token } })
+            .then((response) => {
+                this.existingThemes = response.data;
+            });
+
         await axios.get('api/articles').then((response) => {
             this.articles = response.data;
             for (let i in this.articles) {
@@ -106,6 +141,11 @@ export default {
                     this.header = this.articles[i].header;
                     this.content = this.articles[i].content;
                     this.imageURL = this.articles[i].imageURL;
+
+                    for (let j in this.articles[i].themes) {
+                        this.chosenThemes.push(this.articles[i].themes[j].name);
+                    }
+                    break;
                 }
             }
         });

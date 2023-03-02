@@ -21,6 +21,12 @@
             <div class="nav-link"> | </div>
           </li>
           <li class="nav-item">
+            <router-link to="/settings" class="nav-link">User settings</router-link>
+          </li>
+          <li class="nav-item">
+            <div class="nav-link"> | </div>
+          </li>
+          <li class="nav-item">
             <router-link to="/article" v-if="isAdmin" class="nav-link">Add article</router-link>
           </li>
           <li class="nav-item">

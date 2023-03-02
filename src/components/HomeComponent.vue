@@ -6,7 +6,15 @@
           <img v-bind:src="article.imageURL" />
           <h3>{{ article.header }}</h3>
           <p>{{ article.content }}</p>
-          <p>Published {{ article.date }}</p>
+          <div
+            v-if="article.themes.length > 0"
+            style="display: flex; align-items: flex-start"
+          >
+            <p v-for="theme in article.themes" :key="theme.id">
+              #{{ theme.name }}
+            </p>
+          </div>
+          <p>Опубликовано {{ article.date }}</p>
 
           <button
             v-if="isAdmin"
@@ -14,7 +22,7 @@
             class="btn btn-link"
             @click="deleteArticle(article.id)"
           >
-            Delete article
+            Удалить статью
           </button>
 
           <router-link
@@ -22,7 +30,7 @@
             v-if="isAdmin"
             class="btn btn-link"
             @click="saveArticleId(article.id)"
-            >Update article</router-link
+            >Редактировать статью</router-link
           >
 
           <LoadComments :articleId="article.id" />
@@ -46,20 +54,21 @@ export default {
   name: "HomeComponent",
   components: {
     LoadComments,
-    LikesComponent
+    LikesComponent,
   },
   data() {
     return {
       articles: [],
-      comments: false,
       token: "",
       isAdmin: false,
-      class: 'fas fa-heart'
+      user: {},
+      preferThemes: [],
+      forbidThemes: [],
     };
   },
   methods: {
     async deleteArticle(articleId) {
-      if (confirm("Do you really want to delete this article?")) {
+      if (confirm("Вы действительно хотите удалить эту статью?")) {
         await axios.delete("api/deleteArticle/" + articleId, {
           headers: {
             Authorization: this.token,
@@ -87,18 +96,11 @@ export default {
       this.isAdmin = false;
     }
 
-    await axios.get("api/articles").then((response) => {
-      this.articles = response.data;
-      this.articles.sort(function (articleOne, artcleTwo) {
-        if (articleOne.date < artcleTwo.date) {
-          return 1;
-        } else if (articleOne.date > artcleTwo.date) {
-          return -1;
-        } else {
-          return 0;
-        }
+    await axios
+      .get("api/articles", { headers: { Authorization: this.token } })
+      .then((response) => {
+        this.articles = response.data;
       });
-    });
   },
 };
 </script>

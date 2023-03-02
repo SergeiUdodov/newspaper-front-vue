@@ -1,6 +1,6 @@
 <template>
     <div>
-        <button type="button" class="btn btn-link" @click="showComments()">Comments ({{ comments.length }})</button>
+        <button type="button" class="btn btn-link" @click="showComments()">Комментарии ({{ comments.length }})</button>
         <div v-if="show">
             <div v-if="showLess && this.comments.length > 3">
                 <div v-for="comment in comments.slice(comments.length - 3, comments.length).reverse()" :key="comment.id">
@@ -89,6 +89,7 @@ export default {
             for (let i in this.articles) {
                 if (this.articles[i].id == this.articleId) {
                     this.comments = this.articles[i].comments;
+                    break;
                 }
             }
         });
