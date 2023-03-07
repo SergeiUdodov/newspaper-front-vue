@@ -6,32 +6,19 @@
           <img v-bind:src="article.imageURL" />
           <h3>{{ article.header }}</h3>
           <p>{{ article.content }}</p>
-          <div
-            v-if="article.themes.length > 0"
-            style="display: flex; align-items: flex-start"
-          >
+          <div v-if="article.themes.length > 0" style="display: flex; align-items: flex-start">
             <p v-for="theme in article.themes" :key="theme.id">
               #{{ theme.name }}
             </p>
           </div>
           <p>Опубликовано {{ article.date }}</p>
 
-          <button
-            v-if="isAdmin"
-            type="button"
-            class="btn btn-link"
-            @click="deleteArticle(article.id)"
-          >
+          <button v-if="isAdmin" type="button" class="btn btn-link" @click="deleteArticle(article.id)">
             Удалить статью
           </button>
 
-          <router-link
-            to="/updateArticle"
-            v-if="isAdmin"
-            class="btn btn-link"
-            @click="saveArticleId(article.id)"
-            >Редактировать статью</router-link
-          >
+          <router-link to="/updateArticle" v-if="isAdmin" class="btn btn-link"
+            @click="saveArticleId(article.id)">Редактировать статью</router-link>
 
           <LoadComments :articleId="article.id" />
 

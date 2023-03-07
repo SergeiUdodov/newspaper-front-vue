@@ -66,7 +66,7 @@ export default {
         async addArticle() {
             try {
                 if (this.header.trim() === '' || this.content.trim() === '') {
-                    throw new Error('Заголовок и контент не должны быть пустыми');
+                    throw new Error('Заголовок и содержание не должны быть пустыми');
                 }
 
                 if (this.header.trim().length > 255) {

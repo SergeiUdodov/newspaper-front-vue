@@ -5,22 +5,14 @@
     </button>
     <div v-if="show">
       <div v-if="showLess && this.comments.length > 3">
-        <div
-          v-for="comment in comments.slice(0, 3)"
-          :key="comment.id"
-        >
+        <div v-for="comment in comments.slice(0, 3)" :key="comment.id">
           {{ comment.text }}
           <p>
             {{ comment.user.firstName }} {{ comment.user.lastName }}
             {{ comment.date }}
           </p>
-          <button
-            v-if="isAdmin"
-            type="button"
-            class="btn btn-link"
-            @click="deleteComment(comment.id)"
-          >
-            Delete comment
+          <button v-if="isAdmin" type="button" class="btn btn-link" @click="deleteComment(comment.id)">
+            Удалить комментарий
           </button>
         </div>
       </div>
@@ -31,22 +23,12 @@
             {{ comment.user.firstName }} {{ comment.user.lastName }}
             {{ comment.date }}
           </p>
-          <button
-            v-if="isAdmin"
-            type="button"
-            class="btn btn-link"
-            @click="deleteComment(comment.id)"
-          >
-            Delete comment
+          <button v-if="isAdmin" type="button" class="btn btn-link" @click="deleteComment(comment.id)">
+            Удалить комментарий
           </button>
         </div>
       </div>
-      <button
-        v-if="this.comments.length > 3"
-        type="button"
-        class="btn btn-link"
-        @click="showLessMeth()"
-      >
+      <button v-if="this.comments.length > 3" type="button" class="btn btn-link" @click="showLessMeth()">
         {{ btnName }}
       </button>
       <CommentComponent v-if="token" :articleId="articleId" />
@@ -87,7 +69,7 @@ export default {
         : (this.btnName = "Show less");
     },
     async deleteComment(commentId) {
-      if (confirm("Do you really want to delete this comment?")) {
+      if (confirm("Вы действительно хотите удалить этот комментарий?")) {
         await axios.delete("api/deleteComment/" + commentId, {
           headers: {
             Authorization: this.token,

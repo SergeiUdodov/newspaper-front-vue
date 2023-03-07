@@ -1,8 +1,30 @@
 <template>
-  <div>
+  <div v-if="token">
     <ErrorComponent v-if="error" :error="error" />
 
     <h3>Настройки</h3>
+    <h5>Персональные данные</h5>
+    <div class="form-group">
+      <label>Имя</label>
+      <input type="text" class="form-control" v-model="firstName" />
+    </div>
+    <div class="form-group">
+      <label>Фамилия</label>
+      <input type="text" class="form-control" v-model="lastName" />
+    </div>
+    <div class="form-group">
+      <label>Email</label>
+      <input type="email" class="form-control" v-model="email" />
+    </div>
+    <div class="form-group">
+      <label>Пароль</label>
+      <input type="password" class="form-control" v-model="password" />
+    </div>
+    <div class="form-group">
+      <label>Подтверждение пароля</label>
+      <input type="password" class="form-control" v-model="passwordConfirmation" />
+    </div>
+    <br>
     <h5>Предпочтения по темам</h5>
     <table class="table">
       <thead>
@@ -46,7 +68,13 @@ export default {
       preferThemes: [],
       forbidThemes: [],
       user: {},
-      token: "",
+      email: '',
+      initialEmail: '',
+      firstName: '',
+      lastName: '',
+      password: '',
+      passwordConfirmation: '',
+      token: '',
       isAdmin: false,
       error: ''
     };
@@ -64,11 +92,22 @@ export default {
       }
     },
     async updateUser() {
-
       try {
+
+        if(this.preferThemes.some(item => this.forbidThemes.includes(item))){
+          throw new Error('Выбранные и запрещенные темы не должны пересекаться');
+        }
+
+        if(this.password != this.passwordConfirmation){
+          throw new Error('Пароли не совпадают');
+        }
+
         await axios.put('updateUser',
           {
-
+            firstName: this.firstName,
+            lastName: this.lastName,
+            email: this.email,
+            password: this.password,
             prefer: this.preferThemes.toString(),
             forbid: this.forbidThemes.toString()
           },
@@ -78,9 +117,16 @@ export default {
             }
           });
 
-        this.$router.push('/')
-        // window.location.replace('/');
-        // document.location.reload()
+        if (this.initialEmail != this.email || this.password != '') {
+          localStorage.removeItem('token');
+          // this.$router.push('/');
+          window.location.replace('/');
+        }
+
+        // document.location.reload();
+        // this.$router.push('/');
+        window.location.replace('/');
+        
 
       } catch (e) {
         this.error = e.message;
@@ -115,12 +161,18 @@ export default {
       .then((response) => {
         this.user = response.data;
 
+        this.firstName = this.user.firstName;
+        this.lastName = this.user.lastName;
+        this.email = this.user.email;
+        this.initialEmail = this.user.email;
+
         for (let i in this.user.prefer) {
           this.preferThemes.push(this.user.prefer[i].name);
         }
         for (let j in this.user.forbid) {
           this.forbidThemes.push(this.user.forbid[j].name);
         }
+
       });
   }
 };
