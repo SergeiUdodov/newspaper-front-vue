@@ -9,7 +9,7 @@
           {{ comment.text }}
           <p>
             {{ comment.user.firstName }} {{ comment.user.lastName }}
-            {{ comment.date }}
+            {{ comment.date.slice(0, 16) }}
           </p>
           <button v-if="isAdmin" type="button" class="btn btn-link" @click="deleteComment(comment.id)">
             Удалить комментарий
@@ -21,7 +21,7 @@
           {{ comment.text }}
           <p>
             {{ comment.user.firstName }} {{ comment.user.lastName }}
-            {{ comment.date }}
+            {{ comment.date.slice(0, 16) }}
           </p>
           <button v-if="isAdmin" type="button" class="btn btn-link" @click="deleteComment(comment.id)">
             Удалить комментарий

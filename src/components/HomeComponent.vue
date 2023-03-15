@@ -11,7 +11,7 @@
               #{{ theme.name }}
             </p>
           </div>
-          <p>Опубликовано {{ article.date }}</p>
+          <p>Опубликовано {{ article.date.slice(0, 16) }}</p>
 
           <button v-if="isAdmin" type="button" class="btn btn-link" @click="deleteArticle(article.id)">
             Удалить статью

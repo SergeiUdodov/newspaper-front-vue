@@ -57,6 +57,7 @@ import ErrorComponent from './ErrorComponent.vue'
 
                 } catch (e){
                     this.error = 'Your comment more than 1000 symbols'
+                    // this.error = e.message
                 }
             }
         }
