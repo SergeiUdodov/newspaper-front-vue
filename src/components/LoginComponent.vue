@@ -50,7 +50,7 @@
                 // this.$router.push('/');
                 window.location.replace('/');
             } catch (e){
-                this.error = 'Invalid email/password'
+                this.error = 'Неверный email или пароль'
             }
             } 
         }

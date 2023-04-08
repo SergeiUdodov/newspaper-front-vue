@@ -63,7 +63,7 @@ import ErrorComponent from './ErrorComponent.vue'
                 this.$router.push('/login')
 
                 } catch (e){
-                    this.error = 'Error occurred. Looks like email already registered'
+                    this.error = 'Не все поля заполнены/неверный email'
                 }
             }
         }
