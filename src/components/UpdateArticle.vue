@@ -74,7 +74,7 @@ export default {
                 }
 
                 if (this.header.trim().length > 255) {
-                    throw new Error('Заголовок длиннее 255 символов');
+                    throw new Error('Заголовок не должен быть длиннее 255 символов');
                 }
 
                 await axios.put('api/updateArticle/' + this.articleId,

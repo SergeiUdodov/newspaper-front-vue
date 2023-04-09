@@ -87,8 +87,9 @@ export default {
             Authorization: this.token,
           },
         });
-        // window.location.replace('/');
-        document.location.reload();
+        window.location.replace('/');
+        // this.$router.push('/settings');
+        // document.location.reload();
       }
     },
     async updateUser() {
