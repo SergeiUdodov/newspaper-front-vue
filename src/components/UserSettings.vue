@@ -17,7 +17,7 @@
       <input type="email" class="form-control" v-model="email" />
     </div>
     <div class="form-group">
-      <label>Пароль</label>
+      <label>Новый пароль</label>
       <input type="password" class="form-control" v-model="password" />
     </div>
     <div class="form-group">
@@ -48,8 +48,8 @@
         </tr>
       </tbody>
     </table>
-    <button @click="updateUser()" class="btn btn-primary btn-block">Сохранить</button>
-    <router-link to="/" class="btn btn-primary btn-block">Назад</router-link>
+    <button @click="updateUser()" class="btn btn-primary btn-block" style="margin: 15px">Сохранить</button>
+    <router-link to="/" class="btn btn-primary btn-block" style="margin: 15px">Назад</router-link>
   </div>
 </template>
 
@@ -96,10 +96,12 @@ export default {
       try {
 
         if(this.preferThemes.some(item => this.forbidThemes.includes(item))){
+          window.scrollTo(0,0);
           throw new Error('Выбранные и запрещенные темы не должны пересекаться');
         }
 
         if(this.password != this.passwordConfirmation){
+          window.scrollTo(0,0);
           throw new Error('Пароли не совпадают');
         }
 

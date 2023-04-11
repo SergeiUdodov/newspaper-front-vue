@@ -35,8 +35,8 @@
             <label for="floatingInput">Добавьте новые темы...</label>
         </div>
 
-        <button class="btn btn-primary btn-block">Сохранить</button>
-        <router-link to="/" class="btn btn-primary btn-block">Назад</router-link>
+        <button class="btn btn-primary btn-block" style="margin: 15px">Сохранить</button>
+        <router-link to="/" class="btn btn-primary btn-block" style="margin: 15px">Назад</router-link>
     </form>
 </template>
 
@@ -66,10 +66,12 @@ export default {
         async addArticle() {
             try {
                 if (this.header.trim() === '' || this.content.trim() === '') {
+                    window.scrollTo(0,0);
                     throw new Error('Заголовок и содержание не должны быть пустыми');
                 }
 
                 if (this.header.trim().length > 255) {
+                    window.scrollTo(0,0);
                     throw new Error('Заголовок не должен быть длиннее 255 символов');
                 }
 

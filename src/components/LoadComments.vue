@@ -1,38 +1,38 @@
 <template>
   <div>
-    <button type="button" class="btn btn-link" @click="showComments()">
-      Комментарии ({{ comments.length }})
-    </button>
-    <div v-if="show">
       <div v-if="showLess && this.comments.length > 3">
         <div v-for="comment in comments.slice(0, 3)" :key="comment.id">
-          {{ comment.text }}
-          <p>
-            {{ comment.user.firstName }} {{ comment.user.lastName }}
-            {{ comment.date.slice(0, 16) }}
-          </p>
+          <div style="margin-bottom: 15px; margin-left: 15px">
+            <div style="word-break:normal">{{ comment.text }}</div>
+            <div style="font-style: italic; font-weight: bold">
+             {{ comment.user.firstName }} {{ comment.user.lastName }}
+             {{ comment.date.slice(0, 16) }}
+            </div>
           <button v-if="isAdmin" type="button" class="btn btn-link" @click="deleteComment(comment.id)">
             Удалить комментарий
           </button>
+        </div>
         </div>
       </div>
       <div v-else>
         <div v-for="comment in comments" :key="comment.id">
-          {{ comment.text }}
-          <p>
-            {{ comment.user.firstName }} {{ comment.user.lastName }}
-            {{ comment.date.slice(0, 16) }}
-          </p>
+          <div style="margin-bottom: 15px; margin-left: 15px">
+            <div style="word-break:normal">{{ comment.text }}</div>
+            <div style="font-style: italic; font-weight: bold">
+             {{ comment.user.firstName }} {{ comment.user.lastName }}
+              {{ comment.date.slice(0, 16) }}
+            </div>
           <button v-if="isAdmin" type="button" class="btn btn-link" @click="deleteComment(comment.id)">
             Удалить комментарий
           </button>
         </div>
+        </div>
       </div>
-      <button v-if="this.comments.length > 3" type="button" class="btn btn-link" @click="showLessMeth()">
+      <button v-if="this.comments.length > 3" type="button" class="btn btn-link" style="margin-bottom: 15px" 
+        @click="showLessMeth()">
         {{ btnName }}
       </button>
       <CommentComponent v-if="token" :articleId="articleId" />
-    </div>
   </div>
 </template>
 
@@ -51,22 +51,16 @@ export default {
       comments: [],
       token: "",
       showLess: true,
-      btnName: "Show more",
-      show: false,
-      isAdmin: false,
+      btnName: "Еще комментарии",
+      isAdmin: false
     };
   },
   methods: {
-    showComments() {
-      this.show = !this.show;
-      this.showLess = true;
-      this.btnName = "Show more";
-    },
     showLessMeth() {
       this.showLess = !this.showLess;
       this.showLess == true
-        ? (this.btnName = "Show more")
-        : (this.btnName = "Show less");
+        ? (this.btnName = "Еще комментарии")
+        : (this.btnName = "Свернуть");
     },
     async deleteComment(commentId) {
       if (confirm("Вы действительно хотите удалить этот комментарий?")) {

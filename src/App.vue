@@ -31,7 +31,7 @@ export default {
   }
 
   body {
-    background: #1C8EF9 !important;
+    background: #b39a842f !important;
     min-height: 100vh;
     display: flex;
     font-weight: 400;
@@ -62,7 +62,9 @@ export default {
     justify-content: center;
     flex-direction: column;
     text-align: left;
-    margin: 100px;
+    margin: auto;
+    padding: 100px;
+    
   }
 
   .auth-inner {
@@ -71,15 +73,18 @@ export default {
     margin: auto;
     background: #ffffff;
     box-shadow: 0px 14px 80px rgba(34, 35, 58, 0.2);
-    padding: 40px 55px 45px 55px;
+    padding: 20px 30px 25px 30px;
     border-radius: 15px;
     transition: all .3s;
   }
 
   img {  
         display: flex;
-        max-width: 300px;  
-        height: 250px;  
+        max-width: 200px;  
+        height: 160px;  
+        float: left;
+        margin-right: 20px;
+        margin-bottom: 10px;
         }
 
   .form-group{
@@ -87,24 +92,73 @@ export default {
   }
 
   button{
-    margin: 15px;
+    margin: 0px;
+    padding: 0px;
   }
 
   .auth-wrapper .form-control:focus {
-    border-color: #167bff;
     box-shadow: none;
   }
 
   .auth-wrapper h3 {
     text-align: center;
-    margin: 0;
     line-height: 1;
-    padding-bottom: 20px;
+    /* padding: 20px; */
   }
 
   .custom-control-label {
     font-weight: 400;
   }
 
+  .theme {
+    font-style: italic;
+    font-weight: bold;
+  }
+
+.block {margin: 1rem;}
+ 
+/* Показать больше/показать меньше */
+.limiter {
+  max-height: 240px;
+  overflow: hidden;
+  position: relative;
+}
+.limiter .bottom {
+  position: absolute;
+  bottom: 0;
+  background: linear-gradient(
+    to bottom,
+    rgb(255 217 29 / 0%),
+    rgb(255 255 255)85%);
+  width: 100%;
+  height: 60px;
+  opacity: 1;
+  transition: 0.3s;
+}
+ 
+[data-more-checker^="read-more"] {
+  opacity: 0;
+  position: absolute;
+}
+[data-more-checker^="read-more"]:checked ~ .limiter {
+  max-height: none;
+}
+[data-more-checker^="read-more"]:checked ~ .limiter .bottom {
+  opacity: 0;
+  transition: 0.3s;
+}
+[data-more-checker^="read-more"] ~ .read-more-button:before  {
+  content: "Показать больше »";
+}
+[data-more-checker^="read-more"]:checked ~ .read-more-button:before {
+  content: "Показать меньше «";
+}
+ 
+.read-more-button {
+  cursor: pointer;
+  display: inline-block;
+  color: #777;
+  text-decoration: underline;
+}
 
 </style>

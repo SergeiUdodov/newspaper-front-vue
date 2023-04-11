@@ -1,17 +1,27 @@
 <template>
-  <div>
-    <header>
-      <div>
+  <div> 
+        <div v-if="articles.length == 0">
+          <h4>Нет статей доступных для отображения.</h4>
+          <h4>Попробуйте изменить предпочтения по темам в настройках.</h4>
+        </div>
         <div v-for="article in articles" :key="article.id">
-          <img v-bind:src="article.imageURL" />
-          <h3>{{ article.header }}</h3>
-          <p>{{ article.content }}</p>
-          <div v-if="article.themes.length > 0" style="display: flex; align-items: flex-start">
-            <p v-for="theme in article.themes" :key="theme.id">
+
+          <div class="block">
+            <input type="checkbox" :id="article.id" data-more-checker="read-more" />
+            <div class="limiter">
+                <img v-bind:src="article.imageURL" />
+                <h5>{{ article.header }}</h5>
+                <p>{{ article.content }}</p>
+                <div class="bottom"></div>
+            </div>
+            <label :for="article.id" class="read-more-button"></label>
+          </div>
+
+          <div v-if="article.themes.length > 0" style="display: flex; align-items: flex-start; margin-left: 15px">
+            <p class="theme" v-for="theme in article.themes" :key="theme.id">
               #{{ theme.name }}
             </p>
           </div>
-          <p>Опубликовано {{ article.date.slice(0, 16) }}</p>
 
           <button v-if="isAdmin" type="button" class="btn btn-link" @click="deleteArticle(article.id)">
             Удалить статью
@@ -20,15 +30,21 @@
           <router-link to="/updateArticle" v-if="isAdmin" class="btn btn-link"
             @click="saveArticleId(article.id)">Редактировать статью</router-link>
 
-          <LoadComments :articleId="article.id" />
+          <div style="display: flex; align-items: flex-end; margin-bottom: 10px; margin-left: 10px">
+            <div style="margin: 5px">Опубликовано {{ article.date.slice(0, 16) }}</div>
+            
+            <button type="button" class="btn btn-link" @click="showComments(article.id)">
+              Комментарии({{ article.comments.length }})
+            </button>
 
-          <LikesComponent :articleId="article.id" />
-
+            <LikesComponent :articleId="article.id"/>
+          </div>
+          <div v-if="show[article.id]">
+            <LoadComments :articleId="article.id"/>
+          </div>
           <hr />
           <br />
         </div>
-      </div>
-    </header>
   </div>
 </template>
 
@@ -48,9 +64,7 @@ export default {
       articles: [],
       token: "",
       isAdmin: false,
-      user: {},
-      preferThemes: [],
-      forbidThemes: [],
+      show: []
     };
   },
   methods: {
@@ -68,6 +82,10 @@ export default {
     saveArticleId(articleId) {
       localStorage.setItem("articleId", articleId);
     },
+
+    showComments(articleId) {
+      this.show[articleId] = !this.show[articleId];
+    }
   },
   async created() {
     if (localStorage.getItem("token")) {

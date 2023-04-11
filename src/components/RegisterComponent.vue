@@ -3,29 +3,29 @@
 
         <ErrorComponent v-if="error" :error="error" />
 
-        <h3>Sign Up</h3>
+        <h3>Регистрация нового пользователя</h3>
 
         <div class="form-group">
-            <label>First Name</label>
-            <input type="text" class="form-control" v-model="first_name" placeholder="First Name"/>
+            <!-- <label>First Name</label> -->
+            <input type="text" class="form-control" v-model="first_name" placeholder="Имя"/>
         </div>
 
         <div class="form-group">
-            <label>Last Name</label>
-            <input type="text" class="form-control" v-model="last_name" placeholder="Last Name"/>
+            <!-- <label>Last Name</label> -->
+            <input type="text" class="form-control" v-model="last_name" placeholder="Фамилия"/>
         </div>
 
         <div class="form-group">
-            <label>Email</label>
+            <!-- <label>Email</label> -->
             <input type="email" class="form-control" v-model="email" placeholder="Email"/>
         </div>
 
         <div class="form-group">
-            <label>Password</label>
-            <input type="password" class="form-control" v-model="password" placeholder="Password"/>
+            <!-- <label>Password</label> -->
+            <input type="password" class="form-control" v-model="password" placeholder="Пароль"/>
         </div>
 
-        <button class="btn btn-primary btn-block">Sign Up</button>
+        <button class="btn btn-primary btn-block" style="margin: 15px">Зарегистрироваться</button>
     </form>
 </template>
 
@@ -55,15 +55,16 @@ import ErrorComponent from './ErrorComponent.vue'
                     firstName: this.first_name,
                     lastName: this.last_name,
                     email: this.email,
-                    password: this.password,
+                    password: this.password
 
                 });
                 
                 console.log(response);
-                this.$router.push('/login')
+                this.$router.push('/login');
 
                 } catch (e){
-                    this.error = 'Не все поля заполнены/неверный email'
+                    window.scrollTo(0,0);
+                    this.error = 'Не все поля заполнены / email уже существует';
                 }
             }
         }

@@ -1,15 +1,15 @@
 <template>
   <nav class="navbar navbar-expand navbar-light fixed-top">
     <div class="container">
-      <router-link to="/" class="navbar-brand">Home</router-link>
+      <router-link to="/" class="navbar-brand">На главную</router-link>
       <div>
 
         <ul class="navbar-nav ml-auto" v-if="!token">
           <li class="nav-item">
-            <router-link to="/login" class="nav-link">Login</router-link>
+            <router-link to="/login" class="nav-link">Войти</router-link>
           </li>
           <li class="nav-item">
-            <router-link to="/register" class="nav-link">Sign up</router-link>
+            <router-link to="/register" class="nav-link">Зарегистрироваться</router-link>
           </li>
         </ul>
 
@@ -21,19 +21,19 @@
             <div class="nav-link"> | </div>
           </li>
           <li class="nav-item">
-            <router-link to="/settings" class="nav-link">User settings</router-link>
+            <router-link to="/settings" class="nav-link">Настройки</router-link>
           </li>
           <li class="nav-item">
             <div class="nav-link"> | </div>
           </li>
           <li class="nav-item">
-            <router-link to="/article" v-if="isAdmin" class="nav-link">Add article</router-link>
+            <router-link to="/article" v-if="isAdmin" class="nav-link">Добавить статью</router-link>
           </li>
           <li class="nav-item">
             <div v-if="isAdmin" class="nav-link"> | </div>
           </li>
           <li class="nav-item">
-            <a href="javascript:void(0)" @click="handleClick" class="nav-link">Logout</a>
+            <a href="javascript:void(0)" @click="handleClick" class="nav-link">Выйти</a>
           </li>
         </ul>
 

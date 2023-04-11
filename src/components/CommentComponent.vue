@@ -6,10 +6,10 @@
 
         <div class="form-floating mb-3">
             <textarea name="textarea" style="width:content; height:150px;" class="form-control" id="floatingInput" v-model="text"/>
-            <label for="floatingInput">Add comment...</label>
+            <label for="floatingInput">Добавить комментарий...</label>
         </div>
 
-        <button class="btn btn-primary btn-block">Send</button>
+        <button class="btn btn-primary btn-block">Отправить</button>
     </form>
 
 </template>
