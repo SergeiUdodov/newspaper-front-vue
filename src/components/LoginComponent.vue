@@ -44,8 +44,10 @@
                     password: this.password
                 });
 
-                console.log(response);
-                localStorage.setItem('token', response.data.token);
+                console.log(response.data.jwttoken);
+                console.log(this.email);
+                console.log(this.password);
+                localStorage.setItem('token', response.data.jwttoken);
 
                 // this.$router.push('/');
                 window.location.replace('/');
