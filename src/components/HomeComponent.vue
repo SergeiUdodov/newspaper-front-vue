@@ -31,7 +31,7 @@
             @click="saveArticleId(article.id)">Редактировать статью</router-link>
 
           <div style="display: flex; align-items: flex-end; margin-bottom: 10px; margin-left: 10px">
-            <div style="margin: 5px">Опубликовано {{ article.date.slice(0, 16) }}</div>
+            <div style="margin: 5px">Опубликовано {{ article.formattedDate.slice(0, 30) }}</div>
             
             <button type="button" class="btn btn-link" @click="showComments(article.id)">
               Комментарии({{ article.comments.length }})

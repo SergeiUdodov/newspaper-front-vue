@@ -6,7 +6,7 @@
             <div style="word-break:normal">{{ comment.text }}</div>
             <div style="font-style: italic; font-weight: bold">
              {{ comment.user.firstName }} {{ comment.user.lastName }}
-             {{ comment.date.slice(0, 16) }}
+             {{ comment.formattedDate.slice(0, 30) }}
             </div>
           <button v-if="isAdmin" type="button" class="btn btn-link" @click="deleteComment(comment.id)">
             Удалить комментарий
